@@ -1,0 +1,38 @@
+# Credentials and local configuration
+creds
+creds.*
+credentials*
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Python environments and generated files
+venv/
+.venv/
+env/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# JavaScript dependencies and build output
+node_modules/
+dist/
+build/
+coverage/
+*.log
+
+# Local editor and operating-system files
+.idea/
+.vscode/
+.DS_Store
+Thumbs.db
+
+# Local assistant configuration
+.codex/
+.agents/
