@@ -27,6 +27,11 @@ build/
 coverage/
 *.log
 
+# Local research data and generated outputs
+/ML/Synthetic_Transaction_Dataset.csv
+/ML/anomalies_*.txt
+.ipynb_checkpoints/
+
 # Local editor and operating-system files
 .idea/
 .vscode/

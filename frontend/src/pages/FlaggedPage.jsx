@@ -2,12 +2,11 @@
 "use client"
 
 import { useEffect, useState } from "react"
-import demoApi from "@/demo/api.mjs"
+import { api } from "@/lib/api"
 import { useNavigate } from "react-router-dom"
-import { AlertTriangle, ArrowLeft } from "lucide-react"
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card"
+import { AlertTriangle } from "lucide-react"
 import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 
 function FlaggedPage() {
@@ -16,31 +15,21 @@ function FlaggedPage() {
   const navigate = useNavigate()
 
   useEffect(() => {
+    const token = localStorage.getItem("token")
+    if (!token) return navigate("/login")
 
-    demoApi
-      .get("/transactions/flagged")
+    api
+      .get("http://localhost:8000/transactions/flagged", {
+        headers: { Authorization: `Bearer ${token}` },
+      })
       .then((res) => setTransactions(res.data))
       .catch((err) => console.error("Error fetching flagged transactions:", err))
       .finally(() => setLoading(false))
   }, [navigate])
 
-  const handleBackHome = () => {
-    navigate("/")
-  }
-
   return (
     <div className="p-6 min-h-screen bg-gradient-to-br from-slate-950 via-slate-900 to-slate-950">
       <div className="max-w-7xl mx-auto">
-        <div className="mb-6">
-          <Button
-            variant="ghost"
-            onClick={handleBackHome}
-            className="text-slate-400 hover:text-white flex items-center gap-2"
-          >
-            <ArrowLeft className="h-4 w-4" />
-            Back to Home
-          </Button>
-        </div>
         <Card className="bg-slate-900 border-slate-700">
           <CardHeader>
             <CardTitle className="flex items-center gap-2 text-white">

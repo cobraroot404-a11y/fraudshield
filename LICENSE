@@ -1,177 +1,93 @@
-FRAUDSHIELD PROPRIETARY SOURCE-AVAILABLE LICENSE
-Version 1.0 — 2026
-Copyright © 2026 Gautham Elampirai
-All Rights Reserved.
-NOTICE
-FraudShield and the original source code, documentation, designs, data
-fixtures, configuration files, visual materials, and other original
-materials distributed through this repository, except separately
-identified third-party materials, are proprietary works owned by
-Gautham Elampirai.
-FraudShield is SOURCE AVAILABLE but is NOT OPEN-SOURCE SOFTWARE.
-Public availability of this repository does not grant an open-source
-licence, place the Software into the public domain, or grant any
-rights except those expressly provided by this licence, applicable
-law, or mandatory terms of the repository hosting platform.
+Proprietary Source-Visible License
+Copyright (c) 2026 Gautham. All rights reserved.
+
+0. SUMMARY (NON-BINDING)
+
+This repository contains proprietary source-visible software.
+You may view, study, clone, and run the Work locally for personal, non-commercial educational, recruitment evaluation, and portfolio-review purposes, subject to the terms below.
+You may not redistribute, publish modified versions, incorporate the Work into another project, provide it as a service, or exploit it commercially without the Owner's prior written permission.
+This is not an open-source license.
 
 1. DEFINITIONS
 
-"Software" means the original copyrightable FraudShield source code,
-documentation, designs, data fixtures, configuration files, visual
-materials, and other project materials made available through this
-repository and owned or controlled by Gautham Elampirai.
-"Copyright Holder" means Gautham Elampirai.
+1.1 "Work" means the original source code, documentation, configuration, diagrams, test suites, sample data, user interfaces, and other copyrightable materials authored by the Owner and distributed in this repository.
+1.2 "Third-Party Components" means software, libraries, frameworks, models, datasets, assets, and other materials owned by third parties.
+1.3 "Owner" means Gautham, the copyright holder identified above.
+1.4 "You" means any individual or legal entity exercising rights under this license.
+1.5 "Evaluation Use" means personal, non-commercial inspection, study, testing, and local execution of the Work to assess its functionality, architecture, engineering quality, or suitability as a portfolio demonstration.
 
-2. OWNERSHIP
+2. LIMITED LICENSE GRANT
 
-All right, title, and interest in the Software, including applicable
-copyrights and other intellectual-property rights, remain with the
-Copyright Holder.
-Making source code publicly accessible does not constitute a
-transfer, assignment, waiver, public-domain dedication, abandonment,
-or relinquishment of ownership.
+Subject to compliance with this license, the Owner grants You a limited, non-exclusive, non-transferable, non-sublicensable, revocable license to:
+(a) access, view, and study the Work;
+(b) download or clone one or more copies of the Work as reasonably necessary for Evaluation Use;
+(c) install and execute the Work locally for Evaluation Use;
+(d) create temporary local modifications strictly necessary to configure, test, or evaluate the Work, provided such modifications are not distributed; and
+(e) use screenshots, brief descriptions, or limited excerpts solely for non-commercial technical review, recruitment assessment, or evaluation, with appropriate attribution.
+This grant does not authorize production deployment, public hosting, commercial exploitation, or incorporation into another project.
 
-3. LIMITED PERMISSION
+3. RESTRICTIONS
 
-Subject to this licence, you may access, view, and inspect the
-publicly available Software solely for:
+Except as expressly permitted in Section 2 or by applicable law, You may not, without the Owner's prior written permission:
+(a) redistribute, republish, mirror, sublicense, sell, rent, or lease the Work;
+(b) distribute modified versions or derivative works;
+(c) incorporate the Work or any substantial original portion into another software product, service, repository, or commercial offering;
+(d) operate the Work as a publicly accessible or commercial hosted service;
+(e) remove, obscure, or misrepresent copyright or licensing notices;
+(f) claim ownership or authorship of the Work;
+(g) submit the Work or a substantial original portion as Your own work in an academic, employment, or competitive context;
+(h) use the Work as a dataset for training, fine-tuning, or improving machine-learning models without the Owner's prior written permission, except where applicable law independently permits such use; or
+(i) use the Work in a manner exceeding the limited permissions expressly granted by this license.
+For this section, a substantial portion is assessed according to copyright law, considering the originality and qualitative importance of the material, not merely its length.
 
-* personal review;
-* educational review;
-* technical evaluation;
-* portfolio evaluation; and
-* informational purposes.
+4. OWNERSHIP AND RESERVATION OF RIGHTS
 
-No licence is granted for any other use except where such rights
-cannot lawfully be restricted.
+The Owner retains all copyright and other applicable intellectual property rights in the Work.
+No ownership rights are transferred under this license.
+Public availability of the source code does not make the Work open-source software or place it in the public domain.
+No patent, trademark, or trade-secret license is granted except where expressly required by applicable law.
+All rights not expressly granted are reserved.
 
-4. PROHIBITED ACTIVITIES
+5. THIRD-PARTY COMPONENTS
 
-Without prior written permission from the Copyright Holder, you may
-not:
-a. copy, reproduce, republish, or redistribute the Software or
-substantial portions of it;
-b. modify, adapt, translate, transform, or create derivative works
-based upon the Software;
-c. incorporate the Software or substantial portions of its
-implementation into another website, application, library,
-service, repository, framework, product, or project;
-d. sell, sublicense, lease, rent, transfer, assign, or otherwise
-provide the Software or rights in the Software to another person
-or organisation;
-e. use the Software for commercial, business, consulting, client,
-institutional, revenue-generating, or production purposes;
-f. deploy, host, expose, operate, publish, or provide the Software or
-a derivative implementation as a website, application, API, SaaS
-product, hosted service, managed service, cloud service, or other
-network-accessible product;
-g. use substantial portions of the Software to create, support,
-improve, or operate a competing product or service;
-h. remove, obscure, alter, conceal, or misrepresent copyright
-notices, ownership notices, licensing notices, trademarks,
-attribution, or other proprietary notices;
-i. represent the Software or substantial portions of it as your own
-original work;
-j. redistribute the Software through another source-code repository,
-package registry, file-sharing service, code marketplace,
-educational submission, tutorial repository, or similar
-distribution channel; or
-k. commercially exploit access to the Software or derivative
-implementations.
+Third-Party Components remain governed by their respective licenses.
+This license applies only to rights the Owner is legally entitled to license.
+Nothing in this license restricts rights independently granted to recipients under applicable third-party licenses.
+Required third-party notices and license terms must be preserved.
+Where a Third-Party Component is distributed with the Work, its applicable license takes precedence for that component.
 
-5. ARTIFICIAL INTELLIGENCE AND MACHINE LEARNING
+6. EVALUATION AND RECRUITMENT REVIEW
 
-No licence is granted by the Copyright Holder to use copyrightable
-Software materials controlled by the Copyright Holder as:
+Recruiters, hiring managers, technical interviewers, educators, and individual reviewers may access, clone, configure, and execute the Work locally for Evaluation Use.
+Such permission does not extend to commercial production use, public hosting, redistribution, or incorporation into another project.
+Organizations requiring broader evaluation, deployment, or commercial rights must obtain the Owner's prior written permission.
 
-* artificial-intelligence training data;
-* machine-learning training data;
-* model fine-tuning data;
-* model-development data;
-* code-generation training corpora;
-* benchmark datasets;
-* evaluation datasets;
-* retrieval corpora intended to reproduce substantial portions of the
-project; or
-* datasets created through systematic extraction of substantial
-copyrightable portions of the Software for those purposes.
+7. NO WARRANTY
 
-Nothing in this section purports to restrict rights that cannot
-lawfully be restricted or rights independently provided under
-applicable law or mandatory platform terms.
+THE WORK IS PROVIDED "AS IS" AND "AS AVAILABLE", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW.
+THE OWNER DISCLAIMS ALL WARRANTIES, INCLUDING MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, NON-INFRINGEMENT, ACCURACY, SECURITY, AND RELIABILITY.
+THE OWNER DOES NOT WARRANT THAT THE WORK WILL BE ERROR-FREE, SECURE, OR UNINTERRUPTED.
 
-6. COMMERCIAL LICENSING
+8. LIMITATION OF LIABILITY
 
-No commercial licence is granted through this public repository.
-Commercial use, modification, redistribution, integration,
-deployment, resale, sublicensing, or any other use outside the
-limited permission provided above requires prior written permission
-from the Copyright Holder.
-Separate commercial licensing terms may be offered at the sole
-discretion of the Copyright Holder.
-
-7. THIRD-PARTY MATERIALS
-
-The Software may depend upon or reference third-party libraries,
-frameworks, packages, fonts, assets, services, or other components.
-Such third-party materials remain governed by their respective
-licences and copyright notices.
-This licence applies only to material for which the Copyright Holder
-owns or controls the relevant rights.
-Nothing in this licence limits rights independently granted by
-third-party licences.
-
-8. NO PATENT OR TRADEMARK LICENCE
-
-Except for the limited copyright permission expressly provided above,
-no patent, trademark, service mark, trade name, logo, branding, or
-other intellectual-property licence is granted.
-The names "FraudShield" and "Gautham Elampirai" may not be used to
-imply sponsorship, approval, affiliation, or endorsement without
-prior written permission.
+TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE OWNER SHALL NOT BE LIABLE FOR ANY INDIRECT, INCIDENTAL, SPECIAL, CONSEQUENTIAL, EXEMPLARY, OR PUNITIVE DAMAGES ARISING FROM USE OF THE WORK.
+THE OWNER'S LIABILITY SHALL OTHERWISE BE LIMITED TO THE EXTENT PERMITTED BY APPLICABLE LAW.
 
 9. TERMINATION
 
-Any permission granted exclusively under this licence terminates
-automatically if you violate its terms.
-Following termination, you must cease activities that rely upon
-permission granted solely under this licence.
-Termination does not affect rights independently available under
-applicable law or applicable third-party licences.
+The rights granted under this license terminate automatically upon a material breach of its terms.
+Upon termination, You must cease activities authorized solely by this license and delete copies retained under its permission, except where retention is independently permitted by law.
+Termination does not affect rights independently granted by third parties or applicable law.
 
-10. DISCLAIMER OF WARRANTY
+10. REQUESTING ADDITIONAL PERMISSION
 
-THE SOFTWARE IS PROVIDED "AS IS" AND "AS AVAILABLE," WITHOUT WARRANTY
-OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING WARRANTIES OF
-MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE, TITLE,
-NON-INFRINGEMENT, ACCURACY, SECURITY, OR RELIABILITY.
-THE COPYRIGHT HOLDER DOES NOT WARRANT THAT THE SOFTWARE WILL BE
-ERROR-FREE, UNINTERRUPTED, SECURE, OR SUITABLE FOR ANY PARTICULAR
-PURPOSE.
+Requests for commercial use, redistribution, public hosting, modification, or other permissions beyond this license should be directed to the Owner through the contact information associated with the repository's hosting account.
+Additional rights require written authorization from the Owner.
 
-11. LIMITATION OF LIABILITY
+11. SEVERABILITY AND INTERPRETATION
 
-TO THE MAXIMUM EXTENT PERMITTED BY APPLICABLE LAW, THE COPYRIGHT
-HOLDER SHALL NOT BE LIABLE FOR DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
-EXEMPLARY, CONSEQUENTIAL, OR OTHER DAMAGES ARISING FROM OR RELATING
-TO ACCESS TO, INABILITY TO ACCESS, OR ANY AUTHORISED OR UNAUTHORISED
-USE OF THE SOFTWARE.
-
-12. SEVERABILITY
-
-If any provision of this licence is held invalid or unenforceable,
-the remaining provisions continue in effect to the maximum extent
-permitted by applicable law.
-
-13. NO WAIVER
-
-Failure to enforce any provision of this licence does not constitute
-a waiver of that provision or any other right.
-
-14. RESERVATION OF RIGHTS
-
-All rights not expressly granted are reserved by the Copyright
-Holder.
-No additional licence or right is granted by implication, estoppel,
-or otherwise.
-Copyright © 2026 Gautham Elampirai All Rights Reserved
+If any provision is found unenforceable, the remaining provisions remain effective to the extent permitted by applicable law.
+Nothing in this license limits rights that cannot legally be restricted, including applicable statutory exceptions and limitations.
+This license constitutes the agreement governing permissions granted by the Owner for the Work, except where a separate written agreement applies.
+Copyright (c) 2026 Gautham. All rights reserved.
+Proprietary Source-Visible Software. Not Open Source.

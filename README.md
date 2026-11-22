@@ -1,275 +1,119 @@
-# FraudShield
+# Fraudshield - Intelligent Banking Platform
 
-### Transaction intelligence, made visible.
+FraudShield is a source-visible banking and transaction-risk prototype for evaluating synthetic transactions, reviewing flagged activity, and exploring how fraud decisions feed operational dashboards. A React interface calls a FastAPI backend that evaluates and stores transactions in MongoDB. The application includes a fixture-backed marketplace and an optional Razorpay test-mode handoff.
 
-A public, read-only proof of concept for a transaction-monitoring interface.
-Explore a responsive dashboard, inspect flagged transactions, and understand
-the system-design decisions behind a full-stack financial technology project.
+## Core capabilities
 
-**React · Vite · Tailwind CSS · Recharts · Component-based UI · API contracts**
+| Capability | Implemented behavior |
+| --- | --- |
+| Transaction risk assessment | Evaluates transaction amount, location, and IP heuristics. Runs graph-based anomaly detection and records its result separately from the rules-based status. |
+| Review and monitoring | Provides transaction history, a flagged queue, monthly and risk-distribution charts, summary counts, and CSV export. Authorized users can update review status. |
+| Accounts and access control | Public registration creates an analyst account. Passwords are hashed with bcrypt and login issues an expiring HS256 JWT. Protected API routes enforce role checks. |
+| Marketplace | Displays synthetic product listings, a manual transaction form, and optional Razorpay Checkout entry points. The product catalog and its statistics are demonstration content. |
+| Optional components | Provides a separate advisory Random Forest endpoint and receipt OCR when explicitly configured. See [optional components](docs/OPTIONAL_COMPONENTS.md) and [ML experiments](ML/README.md). |
 
-> **Demo scope:** every transaction, risk score, and outcome in this repository
-> is synthetic. This version does not process payments, run a fraud model,
-> authenticate users, or connect to a bank or database. It requires no secrets.
+## Technology and architecture
 
-## Why this project exists
+| Layer | Tools |
+| --- | --- |
+| Web | React, React Router, Vite, Tailwind CSS, shadcn/ui and Radix UI, Lucide, Recharts |
+| API and persistence | FastAPI, Pydantic, Uvicorn, PyMongo, MongoDB |
+| Fraud evaluation | Python, pandas, NetworkX, Node2Vec, scikit-learn Isolation Forest, and deterministic rules |
+| Authentication | PyJWT, HS256 bearer tokens, Passlib and bcrypt |
+| Payment handoff | Razorpay Checkout browser SDK with a test-key format guard |
+| Verification | Python unittest, Node.js test runner, Vite production build, GitHub Actions |
 
-A risk score is only useful when people can understand and act on it. FraudShield
-explores how transaction summaries, risk categories, and review queues can be
-presented together in a focused operational interface.
+```mermaid
+flowchart LR
+    UI["React dashboards and marketplace"] -->|"HTTP JSON and bearer token"| API["FastAPI auth and transaction routes"]
+    API -->|"Accounts and transaction records"| DB[("MongoDB")]
+    API -->|"Incoming transaction and transaction history"| RISK["Rules and graph anomaly detection"]
+    RISK -->|"Risk score, status and anomaly fields"| API
+    UI -->|"Optional test-mode handoff"| PAY["Razorpay Checkout"]
+```
 
-The public project demonstrates the presentation layer and its data contract.
-A separate private implementation contains the application backend, detection
-logic, model artifacts, and commercial integrations. Keeping those concerns
-separate makes the UI and architecture reviewable without publishing the core
-implementation.
+### Transaction lifecycle
 
-## What you can explore
+1. An authorized analyst or administrator submits a transaction. FastAPI validates the request against the transaction schema and enforces the API role requirement.
+2. The backend builds a graph from transaction history and the proposed record, creates Node2Vec embeddings, and evaluates anomalies with Isolation Forest. It records the anomaly result in separate ML fields.
+3. The rules engine computes the operational risk score and returns an approved or flagged status. MongoDB stores the input, score, status, and anomaly fields. The API returns the stored record to the UI.
+4. The flagged queue supports review. The transaction status route supports approved, blocked, and false-positive decisions. A separate manual approval endpoint requires an administrator.
+5. The manual marketplace form exposes **Pay Now** after an approved response. The product checkout entry point is separate and does not enforce the same pre-payment review. Checkout is disabled by default.
 
-- **Monitoring dashboard:** total transaction count, flagged count, and average
-  illustrative risk score, all calculated from the same fixture set.
-- **Monthly trends:** transaction and flagged-case counts grouped by month.
-- **Risk distribution:** a chart of predefined sample risk categories.
-- **Review queue:** a read-only table of flagged synthetic transactions.
-- **Transaction history:** all sample records with amounts, statuses, and scores.
-- **Light and dark themes:** reusable cards, badges, tables, and chart elements.
-- **Transparent demo mode:** a persistent banner and an explanation page make
-  it clear that no live banking or security service is running.
+### Engineering trade-offs
 
-## Repository boundary
+- MongoDB stores risk output alongside each transaction, allowing the API to return review context with the record. Transaction history feeds an in-process cache and graph evaluation in the create path, coupling scoring work to request latency. No throughput or scale measurements are claimed.
+- Rules produce readable risk reasons and an operational classification. The graph detector provides a separate anomaly signal. The bundled fixtures are synthetic and support functional checks without establishing real-world accuracy.
+- The browser calls grouped API routes for accounts, transactions, and optional components. FastAPI returns HTTP errors for invalid inputs and denied operations, and the frontend API helper preserves error details for the UI. API role checks are the enforcement boundary.
+- Checkout demonstrates an SDK handoff. This tree does not implement server-side order binding, signature verification, idempotent payment callbacks, or settlement reconciliation. Keep checkout disabled for the portfolio walkthrough.
 
-| Area | Public proof of concept | Private implementation |
-| --- | --- | --- |
-| Selected dashboard and transaction UI | Included | Included |
-| Generic presentation components | Included | Included |
-| New synthetic display fixtures | Included | Not the training dataset |
-| Architecture and system-design documentation | Included | Included |
-| Read-only, in-browser data adapter | Included | Not the backend |
-| Authentication and authorization implementation | Not included | Retained |
-| Transaction decision logic and proprietary algorithms | Not included | Retained |
-| Training data, trained models, encoders, and inference | Not included | Retained |
-| Payment, pricing, marketplace, and monetization flows | Not included | Retained |
-| Receipt-processing implementation | Not included | Retained |
-| Credentials, private keys, and personal data | Never included | Never included |
+## Run locally
 
-The repositories have independent Git histories. This repository is not a
-private-repository branch, filtered history, or submodule. Public updates must
-be reviewed independently; a private branch must never be merged here.
+Use Python 3.12 and Node.js 22 with npm, a running local MongoDB instance, and disposable data. Python 3.11 or newer is required for MongoDB SRV connections. The commands below use PowerShell.
 
-## Dashboard / Application Preview
+```powershell
+git clone https://github.com/cobraroot404-a11y/fraudshield.git
+cd fraudshield
+cd backend
+python -m venv .venv
+.\.venv\Scripts\python -m pip install -r requirements_updated.txt
+Copy-Item .env.example .env
+# Edit .env before starting the backend.
+.\.venv\Scripts\python -m uvicorn main:app --host 127.0.0.1 --port 8000
+```
 
-The screenshots below were captured from the running demo (`npm run dev`)
-using its built-in synthetic fixtures. No real transaction, customer, or
-payment data appears anywhere in this repository.
+In [backend/.env.example](backend/.env.example), the default MongoDB URI points to port 27017 on localhost. Use a fresh URL-safe HS256 signing secret of at least 43 characters. Generate one locally with `python -c "import secrets; print(secrets.token_urlsafe(32))"`. Keep the generated value in the local backend environment file. The example sets the bearer token lifetime to 30 minutes.
 
-**Monitoring dashboard** — total transaction count, flagged-case count,
-average illustrative risk score, a monthly transaction-trend chart, and a
-risk-category breakdown, all derived from the same fixture set.
+In a second terminal, from the repository root:
 
-![FraudShield dashboard overview](docs/images/dashboard-overview.png)
-
-**Flagged transactions (review queue)** — a read-only table of synthetic
-transactions the fixture data marks as flagged, with risk score and
-review/blocked status.
-
-![Flagged transactions review queue](docs/images/fraud-alerts.png)
-
-**All transactions** — the full synthetic transaction history, including
-approved records alongside flagged ones, with status and risk score per row.
-
-![All transactions table](docs/images/transaction-overview.png)
-
-**About / demo disclosure page** — explains the demo boundary in plain
-terms: synthetic data only, no bank or database connection, and no
-proprietary decision logic.
-
-![About demo disclosure page](docs/images/about-demo.png)
-
-## Quick start
-
-Requirements: Node.js 22 or newer and npm.
-
-```bash
+```powershell
 cd frontend
 npm ci
-npm run dev
+npm run dev -- --host 127.0.0.1 --port 5173 --strictPort
 ```
 
-Open the local address printed by Vite. The application starts directly at the
-demo dashboard. No account, API key, database, Python environment, or backend
-process is needed.
+Open `http://localhost:5173/login`. FastAPI's interactive reference is at `http://127.0.0.1:8000/docs`. The API permits the local frontend origin on port 5173.
 
-```bash
-# Verify the demo adapter and its synthetic fixtures
+### Synthetic walkthrough
+
+1. Register a disposable analyst account, then sign in. Open the analyst dashboard, transaction list, and flagged queue. Open the general dashboard at `http://localhost:5173/` for the summary and charts.
+2. Open **Go to Marketplace** from the sign-in screen or visit `http://localhost:5173/marketplace` in the same browser session. Use **New Transaction** with fictional buyer details. The form may look up IP and location through external services, so use only a disposable local environment and synthetic data.
+3. Submit a synthetic transaction and inspect the actual response and dashboard. The source rules flag amounts above 10,000 on amount alone. Smaller amounts may still be evaluated against the other rules. A blocked status is a review decision, and admin-only screens require a locally provisioned administrator.
+4. Browse the synthetic catalog or stop at **Pay Now** when the manual flow is approved. The [frontend environment example](frontend/.env.example) leaves `VITE_RAZORPAY_KEY_ID` empty. The optional SDK path accepts a test-mode key ID when configured, but the documented portfolio walkthrough leaves checkout disabled.
+
+## UI screenshots
+
+**FraudShield Marketplace Demo — Synthetic Product Catalog**
+
+![FraudShield Marketplace Demo — Synthetic Product Catalog](docs/images/marketplace-demo.png)
+
+**FraudShield simulated pre-checkout. No hosted checkout opened and no payment was completed.**
+
+![Simulated pre-checkout dialog showing one approval message and the Pay Now button](docs/images/razorpay-pre-checkout-demo.png)
+
+See the [capture provenance, hashes, and notices](docs/FraudShield-demo-screenshots.md).
+
+## Testing and validation
+
+Run the backend suite from `backend/` with the pinned environment and the frontend suite from `frontend/`.
+
+```powershell
+# backend/
+.\.venv\Scripts\python -m unittest discover -s tests -v
+
+# frontend/
 npm test
-
-# Produce a static production bundle
 npm run build
-
-# Preview that bundle locally
-npm run preview
 ```
 
-Tests cover summary consistency, ordering and pagination, response isolation,
-chart reconciliation, rejected routes, unique record IDs, and reserved example
-email addresses. The included GitHub Actions workflow runs tests and a build;
-its remote result should be checked after each push.
+The release candidate's local Windows validation recorded 16 backend tests and 4 frontend tests passing. Four offline browser checks exercised synthetic approved, flagged, and blocked manual outcomes and the disabled product checkout guard. The production build succeeded with a bundle-size warning. These checks measure functional behavior with fixtures. A fresh Python advisory lookup and independent hosted Razorpay validation were unavailable in the release-review environment.
 
-## Architecture of the public demo
+## Security and limitations
 
-```mermaid
-flowchart LR
-    Visitor[Browser visitor] --> Router[React Router]
-    Router --> Dashboard[Dashboard]
-    Router --> History[Transaction history]
-    Router --> Review[Flagged transactions]
-    Dashboard --> Adapter[Read-only demo adapter]
-    History --> Adapter
-    Review --> Adapter
-    Adapter --> Fixtures[Hand-authored synthetic fixtures]
-    Dashboard --> Components[Reusable UI and chart components]
-    History --> Components
-    Review --> Components
-```
+Keep the application bound to localhost and use synthetic data. The API validates bearer tokens and roles, but public registration grants analyst access and the application is designed around a shared local transaction dataset. A shared deployment would require tighter enrollment, per-user or tenant data boundaries, and production payment verification. See [security guidance](SECURITY.md).
 
-The adapter is a local JavaScript module, not an HTTP server. Its asynchronous
-`get(path)` method returns `{ data }` to preserve a familiar data-access boundary
-for the UI. It performs **no network requests** and does not run a classifier.
-Responses are copied before being returned so consumers cannot modify the
-shared fixture set.
+## Ownership and licensing
 
-The only calculations are display aggregates: counts, averages, and monthly
-grouping. Risk scores, categories, and statuses are authored fixtures, not
-outputs of the private decision engine. No risk thresholds are disclosed.
+Copyright (c) 2026 Gautham. All rights reserved.
 
-## Broader application design
-
-At a high level, the original implementation combines a React frontend, a
-Python/FastAPI application, and MongoDB persistence. Model inference currently
-runs inside the backend process rather than as a separate microservice.
-
-```mermaid
-flowchart LR
-    UI[React presentation layer] --> API[FastAPI application boundary]
-    API --> Identity[Identity and role checks]
-    API --> Transactions[Transaction workflow]
-    Transactions --> Decision[Private decision component]
-    API --> Storage[(MongoDB)]
-    API --> Reporting[Reporting and analytics]
-    Reporting --> Storage
-```
-
-This diagram describes responsibilities, not a production deployment or a claim
-that every boundary is fully hardened. The public adapter demonstrates the
-read-side interaction only. The private decision component is intentionally
-treated as a black box: its rules, features, thresholds, and training artifacts
-are outside this repository.
-
-See [System design](docs/SYSTEM_DESIGN.md) for component responsibilities, data
-flow, consistency choices, deployment considerations, and trade-offs.
-
-## Cloud relevance
-
-This project distinguishes **cloud-compatible structure** from **completed
-cloud deployment**.
-
-The public demo builds to static assets, so it could be served by static hosting
-and a CDN. A fuller application could place the backend on managed application
-compute and use a managed database such as MongoDB Atlas. These are future
-deployment options, not services provisioned by this repository.
-
-| Application concern | Possible cloud responsibility | Current public implementation |
-| --- | --- | --- |
-| Frontend delivery | Static hosting and CDN | Vite static build |
-| API execution | Managed application or container compute | No backend |
-| Data persistence | Managed database | In-browser fixtures |
-| Configuration | Managed secrets and environment configuration | No credentials required |
-| Operational visibility | Logs, metrics, alerts, and tracing | No production monitoring |
-| Delivery pipeline | Build/test automation and release controls | Test/build workflow only |
-
-Scaling the private application would require more than hosting it: persistence,
-request limits, process-local state, inference cost, connection management,
-observability, and security need to be reviewed. Separating inference into an
-independent service is a possible future design, not the current architecture.
-
-## Project structure
-
-```text
-fraudshield/
-├── .github/workflows/ci.yml       # Public demo test/build checks
-├── docs/
-│   ├── API_CONTRACT.md            # Read-side demo response shapes
-│   └── SYSTEM_DESIGN.md           # Architecture and trade-offs
-├── frontend/
-│   ├── src/
-│   │   ├── components/ui/        # Selected reusable presentation components
-│   │   ├── demo/                 # Independent fixtures and local adapter
-│   │   ├── lib/                  # Styling utilities
-│   │   ├── pages/                # Dashboard and read-only transaction screens
-│   │   └── App.jsx               # Routes, demo banner, and explanation page
-│   ├── tests/                    # Adapter and fixture checks
-│   └── package.json
-├── SECURITY.md
-└── README.md
-```
-
-## Security and privacy
-
-- No credentials or real customer records are needed to run the demo.
-- Example email addresses use the reserved `example.com` domain.
-- There are no payment SDKs, login forms, account-creation flows, or transaction
-  mutation endpoints in this edition.
-- The visible analyst label is a demonstration persona, not authorization.
-- Do not connect this demo to a private production API by simply changing a URL.
-  A real integration needs an intentional authentication, authorization,
-  validation, error-handling, and privacy design.
-- Never upload `.env` files, credential files, private keys, training artifacts,
-  or private repository history. See [Security notes](SECURITY.md).
-
-## Limitations and next steps
-
-The demo is intentionally read-only, uses a small fixture set, and does not
-demonstrate real-time fraud detection, bank settlement, OTP delivery, model
-accuracy, or production throughput. Repeated UI refreshes read the same fixture
-set. No accuracy or latency benchmark is claimed.
-
-Potential public improvements include accessibility testing, additional screen
-sizes, empty/error-state coverage, and a larger set of independently authored
-demo scenarios. Private implementation improvements should stay in the private
-repository unless explicitly reviewed for release.
-
-## Skills demonstrated
-
-React, JavaScript, Vite, Tailwind CSS, reusable component design, data
-visualization, asynchronous data adapters, API-contract design, automated
-testing, repository security boundaries, and cloud architecture concepts.
-
-The broader private project also involves Python, FastAPI, MongoDB, machine
-learning integration, identity workflows, and receipt processing. Their code is
-not part of this public proof of concept.
-
-## Author
-
-Maintained by Gautham Elampirai ([cobraroot404-a11y](https://github.com/cobraroot404-a11y)).
-
-## License
-
-FraudShield is **source-available proprietary software** and is **not
-open-source software**.
-
-Copyright © 2026 Gautham Elampirai. All Rights Reserved.
-
-The source code is publicly available solely for viewing, inspection,
-educational review, technical evaluation, and portfolio evaluation.
-
-Unless explicitly authorized in writing by Gautham Elampirai, you may not
-use, copy, modify, redistribute, sell, commercially exploit, incorporate
-into another product, deploy as a service, use to create a competing
-product or service, or use the source code (or this repository's other
-original materials) as AI/ML training, fine-tuning, or evaluation data.
-
-Third-party dependencies listed in [`frontend/package.json`](frontend/package.json)
-remain governed by their own respective licenses; this proprietary license
-applies only to FraudShield's original material.
-
-See the [LICENSE](LICENSE) file for the complete terms.
+FraudShield is source-visible and proprietary under the [Proprietary Source-Visible License](LICENSE). Third-party components keep their own terms. See the [project notices](THIRD_PARTY_NOTICES.md) and [screenshot notices](docs/FraudShield-screenshot-icon-notice.txt).

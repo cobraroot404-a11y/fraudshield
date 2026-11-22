@@ -1,19 +1,7 @@
 # Security and publication boundary
 
-This is a public UI demonstration, not a service for processing real money or
-personal information. Run it with the included synthetic fixtures only.
+FraudShield is a prototype for local evaluation with synthetic data and test-mode payments. Use loopback addresses for development. Keep credentials, user records, internal model files, and private configurations out of commits and issue attachments.
 
-Do not submit secrets, customer records, payment data, model files, or private
-source code in issues, pull requests, screenshots, logs, or attachments.
+The optional receipt scanner requires trusted, separately installed model files. Use test receipts without personal information. Review the files, dependencies and rights for any new material before publishing it.
 
-Public changes must not introduce:
-
-- Private decision logic, algorithms, rules, training features, or thresholds.
-- Model artifacts, encoders, training datasets, or proprietary analysis modules.
-- Payment SDKs, account keys, pricing systems, or monetization workflows.
-- Authentication credentials, private API URLs, `.env` files, or private keys.
-- A private Git history, submodule, or generated bundle built from private code.
-
-No disclosure inbox or private reporting channel is configured by this file.
-For sensitive reports, first arrange a private contact channel with the owner;
-do not publish exploit details containing private information in a public issue.
+For sensitive reports, first arrange a private contact channel with the owner.

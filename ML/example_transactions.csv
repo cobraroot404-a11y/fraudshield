@@ -1,0 +1,7 @@
+sender,created_at,device_id,ip_address,product_name,amount
+reviewer-a,2026-01-01T09:00:00,device-a,192.0.2.10,example-book,25
+reviewer-a,2026-01-01T09:15:00,device-a,192.0.2.10,example-notebook,12
+reviewer-b,2026-01-01T09:30:00,device-b,198.51.100.20,example-book,25
+reviewer-c,2026-01-01T10:00:00,device-c,203.0.113.30,example-lamp,42
+reviewer-b,2026-01-01T10:30:00,device-b,198.51.100.20,example-notebook,12
+reviewer-d,2026-01-01T11:00:00,device-d,192.0.2.40,example-lamp,800
