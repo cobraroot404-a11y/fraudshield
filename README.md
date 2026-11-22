@@ -213,7 +213,7 @@ The manual form shows an approved synthetic transaction and the **Pay Now** entr
 
 ### Recorded demo screenshots
 
-These frames show the local prototype with demo records and Razorpay test-mode payments. Contact details, payment identifiers, and QR codes are masked where they appear. The payment success screen shows the sandbox browser result.
+These frames show the local prototype with demo records and Razorpay test-mode payments. Contact details in account and transaction views are masked. The payment success screen shows the sandbox browser result.
 
 #### Project introduction
 
