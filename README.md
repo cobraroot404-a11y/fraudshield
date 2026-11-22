@@ -211,11 +211,141 @@ The manual form shows an approved synthetic transaction and the **Pay Now** entr
 
 ![FraudShield manual transaction approval and Pay Now entry point](docs/images/razorpay-pre-checkout-demo.png)
 
-### About FraudShield
+### Recorded demo screenshots
 
-The historical About screen describes the project as presented in the demo interface.
+These frames show the local prototype with demo records and Razorpay test-mode payments. Contact details, payment identifiers, and QR codes are masked where they appear. The payment success screen shows the sandbox browser result.
 
-![FraudShield About screen](docs/images/about-demo.png)
+#### Project introduction
+
+![Project introduction](docs/images/video-demo-project-introduction.jpg)
+
+*0:02 in the demo recording.*
+
+#### Admin dashboard
+
+![Admin dashboard](docs/images/video-demo-admin-dashboard.jpg)
+
+*0:06 in the demo recording.*
+
+#### Admin flagged transactions
+
+![Admin flagged transactions](docs/images/video-demo-admin-flagged-transactions.jpg)
+
+*0:10 in the demo recording.*
+
+#### User management
+
+![User management](docs/images/video-demo-user-management.jpg)
+
+*0:12 in the demo recording.*
+
+#### User role selection
+
+![User role selection](docs/images/video-demo-role-selection.jpg)
+
+*0:19 in the demo recording.*
+
+#### Analyst dashboard
+
+![Analyst dashboard](docs/images/video-demo-analyst-dashboard.jpg)
+
+*0:25 in the demo recording.*
+
+#### Analyst dashboard transaction table
+
+![Analyst dashboard transaction table](docs/images/video-demo-analyst-transaction-table.jpg)
+
+*0:30 in the demo recording.*
+
+#### High-risk transaction intake
+
+![High-risk transaction intake](docs/images/video-demo-high-risk-intake.jpg)
+
+*0:33 in the demo recording.*
+
+#### Razorpay test checkout payment options
+
+![Razorpay test checkout payment options](docs/images/video-demo-checkout-payment-options.jpg)
+
+*0:38 in the demo recording.*
+
+#### Razorpay test checkout UPI entry
+
+![Razorpay test checkout UPI entry](docs/images/video-demo-checkout-upi-entry.jpg)
+
+*0:46 in the demo recording.*
+
+#### Sandbox UPI confirmation prompt
+
+![Sandbox UPI confirmation prompt](docs/images/video-demo-checkout-upi-prompt.jpg)
+
+*0:48 in the demo recording.*
+
+#### Sandbox payment confirmation in progress
+
+![Sandbox payment confirmation in progress](docs/images/video-demo-checkout-confirming.jpg)
+
+*0:51 in the demo recording.*
+
+#### Sandbox payment success
+
+![Sandbox payment success](docs/images/video-demo-checkout-success.jpg)
+
+*0:55 in the demo recording.*
+
+#### Analyst review controls
+
+![Analyst review controls](docs/images/video-demo-analyst-review.jpg)
+
+*0:57 in the demo recording.*
+
+#### Flagged transaction review queue
+
+![Flagged transaction review queue](docs/images/video-demo-flagged-review-queue.jpg)
+
+*1:00 in the demo recording.*
+
+#### Admin review before approval
+
+![Admin review before approval](docs/images/video-demo-admin-before-approval.jpg)
+
+*1:03 in the demo recording.*
+
+#### Admin review after approval
+
+![Admin review after approval](docs/images/video-demo-admin-after-approval.jpg)
+
+*1:09 in the demo recording.*
+
+#### Review queue after approval
+
+![Review queue after approval](docs/images/video-demo-queue-after-approval.jpg)
+
+*1:12 in the demo recording.*
+
+#### Viewer dashboard in dark mode
+
+![Viewer dashboard in dark mode](docs/images/video-demo-viewer-dark.jpg)
+
+*1:17 in the demo recording.*
+
+#### Viewer system status and quick actions
+
+![Viewer system status and quick actions](docs/images/video-demo-viewer-system-status.jpg)
+
+*1:21 in the demo recording.*
+
+#### Viewer dashboard in light mode
+
+![Viewer dashboard in light mode](docs/images/video-demo-viewer-light.jpg)
+
+*1:27 in the demo recording.*
+
+#### Project summary
+
+![Project summary](docs/images/video-demo-project-summary.jpg)
+
+*1:31 in the demo recording.*
 
 See the [screenshot provenance and capture hashes](docs/FraudShield-demo-screenshots.md).
 
