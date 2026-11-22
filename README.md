@@ -1,6 +1,18 @@
 # Fraudshield - Intelligent Banking Platform
 
-FraudShield is a source-visible banking and transaction-risk prototype for evaluating synthetic transactions, reviewing flagged activity, and exploring how fraud decisions feed operational dashboards. A React interface calls a FastAPI backend that evaluates and stores transactions in MongoDB. The application includes a fixture-backed marketplace and an optional Razorpay test-mode handoff.
+## Abstract
+
+FraudShield is a final-year master's engineering project that integrates transaction risk assessment with operational review. A React frontend calls a FastAPI backend that evaluates synthetic transactions, persists decisions in MongoDB, and exposes review queues and analytics. The prototype combines explainable fraud rules with a graph-based anomaly signal and includes a fixture-backed marketplace with an optional Razorpay test-mode handoff.
+
+## Problem and objectives
+
+Transaction monitoring must surface records that warrant review and provide enough context for an analyst to understand the decision. A rule can explain why a single record was flagged. Relationships among senders, devices, and IP addresses provide a second view of unusual behavior across records.
+
+The project implements three engineering contributions:
+
+- A transaction pipeline that records rule scores, workflow status, and graph anomaly results alongside the transaction.
+- An analyst workflow linking risk assessment to dashboards, flagged review, status decisions, and transaction exports.
+- A reproducible local prototype for exercising the API, analytics pipeline, and marketplace with synthetic fixtures.
 
 ## Core capabilities
 
@@ -31,6 +43,12 @@ flowchart LR
     RISK -->|"Risk score, status and anomaly fields"| API
     UI -->|"Optional test-mode handoff"| PAY["Razorpay Checkout"]
 ```
+
+### Fraud detection methodology
+
+- **Operational rules.** The scorer assigns 50 points for an amount above 10,000, 25 for a location outside the configured list, and 15 for an IP string that does not start with `192.`. A score of 50 or higher produces the initial flagged status. These are prototype heuristics. Browser-supplied location and IP fields require stronger validation in a shared deployment.
+- **Graph anomaly signal.** The backend uses the proposed transaction and transaction history to connect senders to devices, IP addresses, and product nodes when present. Node2Vec generates node embeddings, and Isolation Forest identifies unusual nodes. The backend records whether the sender was identified as anomalous in separate ML fields. The rules engine determines the initial operational status.
+- **Standalone experiments.** The [ML workspace](ML/README.md) compares Isolation Forest and DBSCAN over synthetic transaction graphs. The optional Random Forest endpoint is advisory. The repository does not report real-world model performance.
 
 ### Transaction lifecycle
 
@@ -83,13 +101,35 @@ Open `http://localhost:5173/login`. FastAPI's interactive reference is at `http:
 
 ## UI screenshots
 
+The dashboard, alerts, transaction, and About images are original captures of the historical demo. All six images show synthetic demonstration content.
+
+### Dashboard Overview
+
+![Historical dashboard with transaction summaries and risk charts](docs/images/dashboard-overview.png)
+
+### Fraud Alerts
+
+![Historical flagged transaction queue for reviewing high-risk records](docs/images/fraud-alerts.png)
+
+### Transaction Overview
+
+![Historical transaction history with synthetic records and their statuses](docs/images/transaction-overview.png)
+
+### Marketplace Demo
+
 **FraudShield Marketplace Demo — Synthetic Product Catalog**
 
 ![FraudShield Marketplace Demo — Synthetic Product Catalog](docs/images/marketplace-demo.png)
 
+### Simulated Razorpay Pre-checkout
+
 **FraudShield simulated pre-checkout. No hosted checkout opened and no payment was completed.**
 
 ![Simulated pre-checkout dialog showing one approval message and the Pay Now button](docs/images/razorpay-pre-checkout-demo.png)
+
+### About FraudShield
+
+![Historical About screen describing the FraudShield demo](docs/images/about-demo.png)
 
 See the [capture provenance, hashes, and notices](docs/FraudShield-demo-screenshots.md).
 
@@ -106,11 +146,15 @@ npm test
 npm run build
 ```
 
-The release candidate's local Windows validation recorded 16 backend tests and 4 frontend tests passing. Four offline browser checks exercised synthetic approved, flagged, and blocked manual outcomes and the disabled product checkout guard. The production build succeeded with a bundle-size warning. These checks measure functional behavior with fixtures. A fresh Python advisory lookup and independent hosted Razorpay validation were unavailable in the release-review environment.
+The release candidate's local Windows validation recorded 16 backend tests and 4 frontend tests passing. The backend suite covers JWT validation, manual review persistence with a mocked collection, the optional Random Forest scorer, and receipt parsing and worker handling. The frontend suite covers API request and response behavior and the test-only checkout key guard. Four offline browser checks exercised synthetic approved, flagged, and blocked manual outcomes and the disabled product checkout guard. The production build succeeded with a bundle-size warning. These checks measure functional behavior with fixtures. A fresh Python advisory lookup and independent hosted Razorpay validation were unavailable in the release-review environment.
 
-## Security and limitations
+## Authentication and security
 
-Keep the application bound to localhost and use synthetic data. The API validates bearer tokens and roles, but public registration grants analyst access and the application is designed around a shared local transaction dataset. A shared deployment would require tighter enrollment, per-user or tenant data boundaries, and production payment verification. See [security guidance](SECURITY.md).
+Login verifies the stored bcrypt password hash and issues an expiring HS256 bearer token. The API validates the token's signature, expiry, subject, and role. Protected transaction routes apply role checks, and user administration requires an administrator. The local environment file supplies the signing secret and MongoDB connection settings.
+
+## Limitations and future work
+
+Keep the application bound to localhost and use synthetic data. Public registration grants analyst access to a shared local transaction dataset. A shared deployment would require controlled enrollment, per-user or tenant data boundaries, and review of browser-supplied risk inputs. Payment activation would require server-side order binding, signature verification, idempotent callbacks, and reconciliation. Model evaluation on representative labeled data and performance testing under load remain outside the recorded fixture checks. See [security guidance](SECURITY.md).
 
 ## Ownership and licensing
 
